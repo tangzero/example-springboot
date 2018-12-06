@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate.ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://demodb:5432/demo_db
+    username: demo
+    password: supersecret
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
