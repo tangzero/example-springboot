@@ -1,17 +1,6 @@
-FROM maven:3.3-jdk-8 as backend-build
+FROM maven:3.3-jdk-8
 COPY pom.xml /opt/
 COPY scripts/start_app.sh /opt/
 COPY ./src /opt/src
 WORKDIR /opt
 RUN mvn -B -f /opt/pom.xml -s /usr/share/maven/ref/settings-docker.xml -Dmaven.test.skip=true install
-RUN mvn -Dmaven.test.skip=true package
-
-
-FROM openjdk:8-jre-alpine
-COPY --from=backend-build /opt/target/todo-0.0.1-SNAPSHOT.jar /opt/app.jar
-COPY --from=backend-build /opt/start_app.sh /opt/start_app.sh
-ENV JAVA_OPTS -Xms256m -Xmx512m
-RUN adduser -D javauser
-USER javauser
-WORKDIR /opt
-CMD /bin/sh start_app.sh
