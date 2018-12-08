@@ -1,0 +1,4 @@
+node('master') {
+    stage('Checkout Changes') {
+        git branch: 'master', url: 'https://github.com/herrera-luis/example-springboot.git'
+    }
