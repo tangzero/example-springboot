@@ -1,5 +1,37 @@
 node('master') {
-    stage('Checkout Changes') {
-        git branch: 'master', url: 'https://github.com/herrera-luis/example-springboot.git'
-    }
+     stage('Checkout code') {
+            steps {
+                node('docker') 
+                    {
+                        checkout([
+                                $class                           : 'GitSCM',
+                                branches                         : [[name: '*/master']],
+                                doGenerateSubmoduleConfigurations: false,
+                                extensions: [[$class: 'CloneOption', timeout: 19]],
+                                submoduleCfg                     : [],
+                                userRemoteConfigs                : [[url: 'https://github.com/herrera-luis/example-springboot']]]
+                        )
+                     }
+                 }
+            }
+        stage('Build artifacts') {
+                steps {
+                    echo 'building artifacts..'
+                    node('docker') {
+                        sh '''
+                            sh ./scripts/local_build_artifact.sh --clean
+                           '''
+                    }
+                }
+            }
+        stage('Deploy app') {
+                steps {
+                    echo 'deploy app..'
+                    node('docker') {
+                        sh '''
+                            java -jar target/todo-0.0.1-SNAPSHOT.jar
+                           '''
+                    }
+                }
+            }
  }
