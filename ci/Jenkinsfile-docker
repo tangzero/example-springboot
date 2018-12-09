@@ -1,0 +1,74 @@
+pipeline {
+    agent none
+    options {
+        skipDefaultCheckout(true)
+    }
+    stages {
+                stage('Checkout code') {
+                        steps {
+                            node('docker') 
+                                {
+                                    checkout([
+                                            $class                           : 'GitSCM',
+                                            branches                         : [[name: '*/master']],
+                                            doGenerateSubmoduleConfigurations: false,
+                                            extensions: [[$class: 'CloneOption', timeout: 19]],
+                                            submoduleCfg                     : [],
+                                            userRemoteConfigs                : [[url: 'https://github.com/herrera-luis/example-springboot']]]
+                                    )
+                                }
+                            }
+                        }
+                stage('Build base image') {
+                        steps {
+                            echo 'building artifacts..'
+                            node('docker') {
+                                sh '''
+                                    sh ./scripts/build_base_image.sh --clean
+                                    '''
+                            }
+                        }
+                    }
+                    stage('Run tests') {
+                        steps {
+                            node('docker') 
+                               {
+                                sh '''
+                                    sh ./scripts/run_tests.sh
+                                    '''
+                                }
+                            }
+                        }
+                stage('Build artifacts') {
+                        steps {
+                            echo 'building artifacts..'
+                            node('docker') {
+                                sh '''
+                                    sh ./scripts/build_artifact_image.sh --clean
+                                    '''
+                            }
+                        }
+                    }
+                stage('Build image deploy') {
+                        steps {
+                            echo 'building artifacts..'
+                            node('docker') {
+                                sh '''
+                                    sh ./scripts/build_image.sh --clean
+                                    '''
+                            }
+                        }
+                    }
+                stage('Deploy container app') {
+                        steps {
+                            echo 'deploy app..'
+                            node('docker') {
+                                sh '''
+                                    sh ./scripts/local_deploy.sh
+                                    '''
+                            }
+                        }
+                    }
+            }
+}
+ 
