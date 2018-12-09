@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build --rm -t dockerdemo-artifact -f Dockerfile.artifact .
+docker build --rm -t herreraluis/javademo-artifact -f Dockerfile.artifact .
