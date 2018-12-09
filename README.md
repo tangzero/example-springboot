@@ -1,3 +1,3 @@
 ## Example of java app with springboot
 
-test2
+test
