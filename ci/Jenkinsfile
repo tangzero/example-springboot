@@ -19,6 +19,16 @@ pipeline {
                                 }
                             }
                         }
+                stage('Run tests') {
+                        steps {
+                            node('docker') 
+                               {
+                                sh '''
+                                    sh ./scripts/local_run_tests.sh
+                                    '''
+                                }
+                            }
+                        }
                 stage('Build artifacts') {
                         steps {
                             echo 'building artifacts..'
