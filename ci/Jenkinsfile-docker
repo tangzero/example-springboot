@@ -64,7 +64,7 @@ pipeline {
                             echo 'deploy app..'
                             node('docker') {
                                 sh '''
-                                    sh ./scripts/local_deploy.sh
+                                    sh ./scripts/run_app.sh
                                     '''
                             }
                         }
