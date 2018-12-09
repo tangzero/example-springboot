@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker run --rm --net=todos -v $(pwd)/src/:/opt/src dockerdemo-base mvn test
+docker run --rm --net=todos -v $(pwd)/src/:/opt/src herreraluis/javademo-base mvn test
