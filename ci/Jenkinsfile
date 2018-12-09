@@ -34,7 +34,7 @@ pipeline {
                             echo 'deploy app..'
                             node('docker') {
                                 sh '''
-                                    java -jar target/todo-0.0.1-SNAPSHOT.jar
+                                    sh ./scripts/local_deploy.sh
                                     '''
                             }
                         }
