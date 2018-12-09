@@ -4,7 +4,7 @@ spring:
     show-sql: true
     hibernate.ddl-auto: update
   datasource:
-    url: jdbc:postgresql://demodb:5432/demo_db
+    url: jdbc:postgresql://172.18.0.20:5432/demo_db
     username: demo
     password: supersecret
     platform: postgres
