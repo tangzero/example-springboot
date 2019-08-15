@@ -6,7 +6,7 @@ RUN mvn  -B -f ./pom.xml -s /usr/share/maven/ref/settings-docker.xml -Dmaven.tes
 
 FROM openjdk:11.0-jre-slim
 COPY --from=javademo-artifact /opt/target/todo-0.0.1-SNAPSHOT.jar /opt/app.jar
-COPY scripts/start_app.sh ./
+COPY scripts/start_app.sh /opt/
 ENV JAVA_OPTS -Xms256m -Xmx512m
 RUN adduser --disabled-login javauser
 USER javauser
