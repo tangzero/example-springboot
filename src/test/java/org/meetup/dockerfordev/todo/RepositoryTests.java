@@ -1,16 +1,16 @@
 package org.meetup.dockerfordev.todo;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.meetup.dockerfordev.todo.entity.TodoItem;
 import org.meetup.dockerfordev.todo.repository.TodoItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = NONE)
 public class RepositoryTests {
@@ -30,22 +30,20 @@ public class RepositoryTests {
     @Autowired
     TodoItemRepository todoItemRepository;
 
-    private TodoItem todoItem;
+    private static TodoItem todoItem;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUp() {
         todoItem = createTodoItem();
-        entityManager.persist(todoItem);
     }
 
-    @After
     public void tearDown() {
         entityManager.remove(todoItem);
     }
 
-
     @Test
     public void saveShouldStoreInTheDatabaseAndReturnATodoItemWithAGeneratedId() {
+        entityManager.persist(todoItem);
         TodoItem savedTodoItem = todoItemRepository.save(todoItem);
 
         assertThat(savedTodoItem, notNullValue());
@@ -57,8 +55,7 @@ public class RepositoryTests {
 
     @Test
     public void deleteShouldRemoveInsertedTodoItem() {
-        TodoItem newItem = createTodoItem();
-        TodoItem savedTodoItem = todoItemRepository.save(newItem);
+        TodoItem savedTodoItem = todoItemRepository.save(todoItem);
 
         todoItemRepository.delete(savedTodoItem);
 
@@ -67,7 +64,7 @@ public class RepositoryTests {
         assertThat(deletedElement.isPresent(), equalTo(false));
     }
 
-    private TodoItem createTodoItem() {
+    private static TodoItem createTodoItem() {
         TodoItem todoItem = new TodoItem();
         todoItem.setTitle("Some title");
         todoItem.setDone(false);
