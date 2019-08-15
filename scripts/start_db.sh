@@ -8,7 +8,7 @@ docker run -p 99:80 --name=pgadmin \
 docker run --network todos --name demodb \
            --ip 172.18.0.20 \
            -p 5432:5432 \
-           -e POSTGRES_PASSWORD=supersecret \
+           -e POSTGRES_PASSWORD=the-secret \
            -e POSTGRES_USER=demo \
-           -e POSTGRES_DB=demo_db \
+           -e POSTGRES_DB=datadb \
            -d postgres

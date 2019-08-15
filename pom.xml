@@ -16,7 +16,10 @@
 
 	<properties>
 		<java.version>11</java.version>
-	</properties>
+        <param.url_db>${url_db}</param.url_db>
+        <param.username>${username_db}</param.username>
+        <param.password>${password_db}</param.password>
+    </properties>
 
 	<dependencies>
 		<dependency>
@@ -85,7 +88,24 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>^</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<repositories>

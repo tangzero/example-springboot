@@ -7,9 +7,23 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+---
+
+spring:
+  profiles: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo_db
+    url: jdbc:postgresql://localhost:5432/datadb
     username: demo
-    password: supersecret
+    password: the-secret
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:postgresql://^param.url_db^
+    username: ^param.username^
+    password: ^param.password^
     platform: postgres
     driver-class-name: org.postgresql.Driver
