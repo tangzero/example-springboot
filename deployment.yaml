@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: 
+      service: apps-service #Name of service
+  name: deployment-apps
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: herreraluis/javademo
+          ports:
+            - containerPort:  8080
+              hostPort: 8080
+          volumeMounts:
+          - name: secret-volume
+            mountPath: /etc/secret-volume
+
+          env:
+          - name: "USERNAME_DB"
+            valueFrom:
+              secretKeyRef:
+                name: prod-secret
+                key: username_db
+          - name: "PASSWORD_DB"
+            valueFrom:
+              secretKeyRef:
+                name: prod-secret
+                key: password_db
+          - name: "URL_DB"
+            valueFrom:
+              secretKeyRef:
+                name: prod-secret
+                key: url_db
+          - name: "NAME_DB"
+            valueFrom:
+              secretKeyRef:
+                name: prod-secret
+                key: name_db
+
+          command: ["java"]
+          args: ["-Dspring.profiles.active=prod", "-Dpassword_db=$(PASSWORD_DB)", "-Dusername_db=$(USERNAME_DB)", "-Durl_db=$(URL_DB):5432/$(NAME_DB)", "-jar", "app.jar"]
+
+        - name: postgres
+          image: postgres:10.4
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+        - name: secret-volume
+          secret:
+            secretName: prod-secret
