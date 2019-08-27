@@ -15,5 +15,3 @@ trigger:
   - push
   - pull_request
   - tag
-  - promote
-  - rollback
