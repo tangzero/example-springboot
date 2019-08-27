@@ -2,10 +2,19 @@ kind: pipeline
 name: prod-deploy
 
 steps:
-- name: install-test
+- name: install
   image: maven:3-jdk-11
   commands:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn test -Dspring.profiles.active=$(PROFILE) -Dpassword_db=$(PASSWORD_DB) -Dusername_db=$(USERNAME_DB) -Durl_db=$(URL_DB)
+  when:
+    event:
+    - push
+    - pull_request
+
+- name: tests
+  image: maven:3-jdk-11
+  commands:
   - mvn test -Dspring.profiles.active=$(PROFILE) -Dpassword_db=$(PASSWORD_DB) -Dusername_db=$(USERNAME_DB) -Durl_db=$(URL_DB)
   when:
     event:
