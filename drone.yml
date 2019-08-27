@@ -13,6 +13,15 @@ steps:
 
 - name: tests
   image: maven:3-jdk-11
+  environment:
+      PROFILE:
+        from_secret: profile
+      PASSWORD_DB:
+        from_secret: password_db
+      USERNAME_DB:
+        from_secret: username_db
+      URL_DB:
+        from_secret: url_db
   commands:
   - mvn test -Dspring.profiles.active=$(PROFILE) -Dpassword_db=$(PASSWORD_DB) -Dusername_db=$(USERNAME_DB) -Durl_db=$(URL_DB)
   when:
