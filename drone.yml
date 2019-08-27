@@ -2,14 +2,10 @@ kind: pipeline
 name: prod-deploy
 
 steps:
-- name: install
+- name: build
   image: maven:3-jdk-11
   commands:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  when:
-    event:
-    - push
-    - pull_request
 
 - name: tests
   image: maven:3-jdk-11
@@ -24,10 +20,24 @@ steps:
         from_secret: url_db
   commands:
   - mvn test -Dspring.profiles.active=$PROFILE -Dpassword_db=$PASSWORD_DB -Dusername_db=$USERNAME_DB -Durl_db=$URL_DB
-  when:
-    event:
-    - push
-    - pull_request
+
+- name: publish
+  image: plugins/docker
+  settings:
+    repo: herreraluis/javademo
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+- name: deploy
+  image: docker
+  commands:
+  - sh ./.drone/deploy.sh
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock
 
 trigger:
   branch:
