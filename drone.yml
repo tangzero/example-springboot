@@ -31,6 +31,20 @@ steps:
     password:
       from_secret: docker_password
 
+- name: deploy kubernetes
+  image: vallard/drone-kube
+  environment:
+      PROFILE:
+        from_secret: profile
+      PASSWORD_DB:
+        from_secret: password_db
+      USERNAME_DB:
+        from_secret: username_db
+      URL_DB:
+        from_secret: url_db
+  settings:
+    template: deployment.yaml
+
 
 trigger:
   branch:
