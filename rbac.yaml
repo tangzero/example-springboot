@@ -14,7 +14,7 @@ metadata:
 rules:
   - apiGroups: ["extensions"]
     resources: ["deployments"]
-    verbs: ["get","list","patch","update"]
+    verbs: ["get","list","patch","update","create","delete"]
 
 ---
 
