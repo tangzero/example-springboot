@@ -15,7 +15,7 @@ spec:
       port: 5432
       targetPort: 5432
 
-   -  name: tcp-8080
+   -  name: tcp-9191
       protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 9191
+      targetPort: 9191

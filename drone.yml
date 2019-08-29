@@ -2,34 +2,34 @@ kind: pipeline
 name: default
 
 steps:
-#- name: build
-#  image: maven:3-jdk-11
-#  commands:
-#  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- name: build
+  image: maven:3-jdk-11
+  commands:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-#- name: tests
-#  image: maven:3-jdk-11
-#  environment:
-#      PROFILE:
-#        from_secret: profile
-#      PASSWORD_DB:
-#        from_secret: password_db
-#      USERNAME_DB:
-#        from_secret: username_db
-#      URL_DB:
-#        from_secret: url_db
-#  commands:
-#  - mvn test -Dspring.profiles.active=$PROFILE -Dpassword_db=$PASSWORD_DB -Dusername_db=$USERNAME_DB -Durl_db=$URL_DB
+- name: tests
+  image: maven:3-jdk-11
+  environment:
+      PROFILE:
+        from_secret: profile
+      PASSWORD_DB:
+        from_secret: password_db
+      USERNAME_DB:
+        from_secret: username_db
+      URL_DB:
+        from_secret: url_db
+  commands:
+  - mvn test -Dspring.profiles.active=$PROFILE -Dpassword_db=$PASSWORD_DB -Dusername_db=$USERNAME_DB -Durl_db=$URL_DB
 
-#- name: publish
-#  image: plugins/docker
-#  settings:
-#    repo: herreraluis/javademo
-#    auto_tag: true
-#    username:
-#      from_secret: docker_username
-#    password:
-#      from_secret: docker_password
+- name: publish
+  image: plugins/docker
+  settings:
+    repo: herreraluis/javademo
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
 
 - name: deploy kubernetes
   image: vallard/drone-kube
