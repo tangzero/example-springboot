@@ -46,6 +46,8 @@ steps:
         from_secret: kubernetes_server
       KUBE_TOKEN:
         from_secret: kubernetes_token
+      KUBE_CA:
+        from_secret: kubernetes_ca
   settings:
     template: deployment.yaml
 
