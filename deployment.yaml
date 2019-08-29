@@ -46,8 +46,8 @@ spec:
                 name: prod-secret
                 key: name_db
 
-            command: ["java"]
-            args: ["-Dspring.profiles.active=prod", "-Dpassword_db=$(PASSWORD_DB)", "-Dusername_db=$(USERNAME_DB)", "-Durl_db=$(URL_DB):5432/$(NAME_DB)", "-jar", "app.jar"]
+          command: ["java"]
+          args: ["-Dspring.profiles.active=prod", "-Dpassword_db=$(PASSWORD_DB)", "-Dusername_db=$(USERNAME_DB)", "-Durl_db=$(URL_DB):5432/$(NAME_DB)", "-jar", "app.jar"]
 
       volumes:
       - name: secret-volume
