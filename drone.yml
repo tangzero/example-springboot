@@ -42,6 +42,10 @@ steps:
         from_secret: username_db
       URL_DB:
         from_secret: url_db
+      KUBERNETES_SERVER:
+        from_secret: kubernetes_server
+      KUBERNETES_TOKEN:
+        from_secret: kubernetes_token
   settings:
     template: deployment.yaml
 
