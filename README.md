@@ -54,26 +54,28 @@ For use this script you have to create variables secrets on your drone applicati
  
  #### Steps on Drone
  
- ##### build
+ #### build
  
  This step compile the application without run tests just downloading all dependencies and generating the package .jar
  
- ##### tests
+ #### tests
  
  This step run all the tests of the application
  
- ##### publish
+ #### publish
  
- This step publish the docker image to the dockerhub repository for example: herreraluis/javademo
+ This step publish the docker image to the DockerHub repository for example: herreraluis/javademo
  
- ##### deploy kubernetes
+ #### deploy kubernetes
  
  This step deploy pods on kubernetes server, you have to setup the secrets related to kubernetes for accomplish this step
  
  ### Kubernetes
 
 We are assuming that you have installed and configured your Kubernetes environment.
-In this step we are connecting to other server so we are using **kubernetes secrets** for this reason you have to create it in the kubernetes server with the next command:
+In this section we are going to explain you how setup your kubernetes server for deploy the pods.
+
+We are using **kubernetes secrets** for this reason you have to create it in the kubernetes server with the next command:
 
     kubectl apply -f secrets.yaml
 
