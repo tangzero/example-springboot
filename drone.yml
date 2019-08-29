@@ -33,6 +33,7 @@ steps:
 
 - name: deploy kubernetes
   image: vallard/drone-kube
+  namespace: default
   environment:
       PROFILE:
         from_secret: profile
