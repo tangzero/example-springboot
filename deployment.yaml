@@ -19,11 +19,11 @@ spec:
           image: herreraluis/javademo
           env:
             - name: PROFILE
-              value: $(PROFILE)
+              value: $PROFILE
             - name: URL_DB
-              value: $(URL_DB)
+              value: $URL_DB
           ports:
             - containerPort:  8080
               hostPort: 9191
           command: ["java"]
-          args: ["-Dspring.profiles.active=$PROFILE", "-Dpassword_db=$PASSWORD_DB", "-Dusername_db=$USERNAME_DB", "-Durl_db=$URL_DB", "-jar", "app.jar"]
+          args: ["-Dspring.profiles.active=$(PROFILE)", "-Dpassword_db=$(PASSWORD_DB)", "-Dusername_db=$USERNAME_DB", "-Durl_db=$(URL_DB)", "-jar", "app.jar"]
