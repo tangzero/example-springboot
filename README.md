@@ -91,5 +91,5 @@ Also for expose our application out of Kubernetes server you have to execute the
 
     sh expose-app-kubernetes.sh
     
-Finally **Drone** will be executing **deployment.yaml** that deploy the pods using the configurations that we did before
+Finally **Drone** will be executing **deployment.yaml** that deploy the pods using the configurations that we did before.
 
